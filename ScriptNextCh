@@ -1,0 +1,38 @@
+// ==UserScript==
+// @name         Click en Capítulo Siguiente con Flecha Derecha
+// @namespace    http://tampermonkey.net/
+// @version      1.3
+// @description  Presiona la tecla → para hacer clic en el botón de capítulo siguiente correctamente.
+// @author       GPT
+// @match        *://*/*
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    // Función para encontrar el div objetivo
+    function findNextChapterButton() {
+        return document.querySelector('.col-6.col-sm-2.order-2.order-sm-3.chapter-arrow.chapter-next');
+    }
+
+    // Evento para detectar la tecla →
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowRight') {
+            let nextChapterButton = findNextChapterButton();
+            if (nextChapterButton) {
+                let link = nextChapterButton.querySelector('a'); // Buscar el <a> dentro del div
+                if (link) {
+                    window.location.href = link.href; // Redirigir a la URL del enlace
+                    console.log("✔ Redirigiendo a:", link.href);
+                } else {
+                    console.log("⚠ No se encontró el enlace dentro del div.");
+                }
+            } else {
+                console.log("⚠ No se encontró el div.");
+            }
+        }
+    });
+
+    console.log("🔄 Script cargado y esperando la tecla →.");
+})();
